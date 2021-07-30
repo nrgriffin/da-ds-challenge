@@ -23,9 +23,23 @@
 # 3. The rows in the file are ordered by highest-scoring feature to lowest non-zero-scoring feature
 
 import argparse
+import pandas
+import numpy.ma as ma
+
+# ID, label, and a bunch of vales for that feature in each row.
+# ID, feature score (sorted descending)
 
 def apply_feature_mask(feature_data_file, feature_score_file, output_file):
-    #   Implementation here
+    # Merge the data frames on ID (like a left join in SQL).
+    interim = pd.merge(feature_data_file, feature_score_file, how='"left", on="ID")
+    # Split the feature score into its own column.
+    for i in range(len(interim['score'])):
+        interim['score_only'][i] = interim['score'][i].split(' ')[1:]
+    interim2 = ma.masked_equal(interim['score_only'], NaN) # Mask the NaN values in score_only
+    interim2 = ma.mask_rows(interim) # Mask entire rows with masks from above
+    interim2['ID'] = interim['ID']
+    interim2['label'] = interim['label']
+    intermin2.to_csv(output_file)   # Generate the output file.
 
 
 if __name__ == '__main__':
