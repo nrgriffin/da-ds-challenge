@@ -10,6 +10,17 @@ string_input = (
 
 # please enter your solution here:
 
+def fix_string (input):
+    input = input.replace('@',';')
+    result = [x.strip() for x in input.split(';')]
+    result2 = []
+      for i in range(len(result)):
+          if result[i][0] != 'f':
+              result2.append('f' + result[i])
+          else:
+              result2.append(result[i])
+    print(np.array(result2).reshape(-1, 2))
+
 # well, it turns out that in order to be ingested by our model we have to solve a few more problems with our data
 # the zeroeth column is the label, please split that out into it's own array
 # the next two columns have their orders swapped, please put them in the correct spots
@@ -17,3 +28,19 @@ string_input = (
 # please make the vector conform to the input dimension
 
 # please enter your solution here:
+
+def fix_string (input):
+    input = input.replace('@',';')
+    result = [x.strip() for x in input.split(';')]
+    result2 = []
+      for i in range(len(result)):
+          if result[i][0] != 'f':
+              result2.append('f' + result[i])
+          else:
+              result2.append(result[i])
+    label = np.array(result2.pop(0))
+    result2[1], result2[0] = result2[0], result2[1]
+    n = 6
+    x = [result2[i:i + n] for i in range(0, len(result2), n)]
+    print(label)
+    print(np.array(x))
